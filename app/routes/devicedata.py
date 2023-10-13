@@ -17,21 +17,34 @@ from app.email.emailver import send_verification_email
 from app.email.resetpass import send_passreset_email
 import secrets
 from datetime import datetime, date
+from typing import List
+
 
 
 user = APIRouter()
 
-
+# http://127.0.0.1:8000/devicedata?page=2&items_per_page=5
 
 ###### ----------Route for devicedata----------######
 
-@user.get("/devicedata", response_model=dict)
-async def get_paginated_items(
+@user.get("/devicedata", response_model=List[UserDeviceData])
+async def devicedata(
     page: int = Query(1, description="Page number", gt=0),
     items_per_page: int = Query(10, description="Items per page", gt=0, le=100),
-):
+    current_user: dict = Depends(get_current_user)):
 
     try:
+        if current_user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+        # print(current_user)
+
+        # Get the role of the current user
+        role = current_user.get('role')
+        # print(role)
+
+        # Check if the user has the 'admin' role, if not, return an error message
+        if role != "admin":
+            raise HTTPException(status_code=403, detail="Only admins can access")
         # Calculate the number of documents to skip
         skip = (page - 1) * items_per_page
 
@@ -39,9 +52,14 @@ async def get_paginated_items(
         device_data = list(device_collection.find({}).skip(skip).limit(items_per_page))
         # Transform MongoDB documents to Pydantic models
         paginated_items = [UserDeviceData(**device_data) for device_data in device_data]
-
+        print(paginated_items)
         return paginated_items
     
+    except HTTPException as http_error:
+        if http_error.detail == "Not authenticated":
+            raise HTTPException(
+                status_code=400, detail=http_error.detail)
+        raise http_error  
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Internal Server Error: {str(e)}")

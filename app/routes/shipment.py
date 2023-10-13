@@ -24,7 +24,8 @@ user = APIRouter()
 ###### ----------Route for Createshipment----------######
 
 @user.post("/createshipment", response_model=dict)
-async def createshipment(request: Request, user_ship: UserCreateShipment, current_user: dict = Depends(get_current_user)):
+async def createshipment(request: Request, user_ship: UserCreateShipment, 
+                            current_user: dict = Depends(get_current_user)):
 
     try:
         # print(current_user)

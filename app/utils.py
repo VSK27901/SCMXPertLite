@@ -64,10 +64,17 @@ def decode_token(token: str):
 ###### ----------function to get current user from access token----------######
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
-    payload = decode_token(token)
-    if payload is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    return payload
+    try:
+        payload = decode_token(token)
+        if payload and "sub" in payload and "email" in payload:
+            user_data = users_collection.find_one({"email": payload["email"]})
+            if user_data and "username" in user_data:
+                return {"username": user_data["username"], "email": payload["email"], "role": user_data.get("role")}
+    except JWTError:
+        pass
+
+    return None
+
 
 
 

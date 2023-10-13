@@ -52,13 +52,7 @@ class UserDeviceData(BaseModel):
     Route_From: str
     Route_To: str
 
-class Shipment_Data(BaseModel):
-    Shipment_Invoice_Number: str
-    Device: str
-    Goods_Type: str
-    Route_Details: str
-    Expected_Delivery_Date: str
-    
+
 
 
 
