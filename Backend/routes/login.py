@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
-from app.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
-from app.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from app.utils import Hash, create_access_token,  get_current_user, decode_token
+from Backend.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
+from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
+from Backend.utils import Hash, create_access_token,  get_current_user, decode_token
 from bson import ObjectId
 from datetime import timedelta
 from pydantic import EmailStr
@@ -19,7 +19,6 @@ from datetime import datetime, date
 
 # To create an instance of APIRouter for user-related routes
 user = APIRouter()
-
 
 
 ###### ----------Route for login page----------######
@@ -56,3 +55,4 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Internal Server Error: {str(e)}")
+

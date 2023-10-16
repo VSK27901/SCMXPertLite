@@ -5,7 +5,7 @@ from fastapi import Depends, HTTPException, status, Request, Cookie
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
-from app.config.db import users_collection
+from Backend.config.db import users_collection
 import secrets
 
 # Load environment variables from a .env file

@@ -38,3 +38,28 @@ joinLink.addEventListener('click', function(event) {
     event.preventDefault();
     scrollToSection(joinSection); 
 });
+
+
+
+// Define a function to fetch the homepage (index.html)
+function fetchHomepage() {
+    fetch('/index.html') 
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then((htmlContent) => {
+            // Assuming you want to replace the current page's content with the fetched homepage
+            document.body.innerHTML = htmlContent;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+// Call the function to fetch the homepage
+fetchHomepage();
+
+

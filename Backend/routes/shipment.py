@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Query, Header
-from app.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
-from app.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from app.utils import Hash, create_access_token,  get_current_user, decode_token
+from Backend.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
+from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
+from Backend.utils import Hash, create_access_token,  get_current_user, decode_token
 from bson import ObjectId
 from datetime import timedelta
 from pydantic import EmailStr
@@ -43,7 +43,7 @@ async def createshipment(request: Request, user_ship: UserCreateShipment,
         creation_date = str(date.today())
 
         new_shipment = {
-                "username": current_user["sub"],
+                "username": current_user["username"],
                 "email": current_user["email"],  
                 "shipment_no": user_ship.shipment_no,
                 "route_details": user_ship.route_details,

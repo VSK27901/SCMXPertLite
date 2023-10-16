@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
-from app.models.models import User, UserDeviceData
-from app.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from app.utils import Hash, create_access_token, get_current_user, decode_token
+from Backend.models.models import User, UserDeviceData
+from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
+from Backend.utils import Hash, create_access_token, get_current_user, decode_token
 from bson import ObjectId
 from datetime import timedelta
 from pydantic import EmailStr
@@ -13,8 +13,8 @@ import requests
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from app.email.emailver import send_verification_email
-from app.email.resetpass import send_passreset_email
+from Backend.email.emailver import send_verification_email
+from Backend.email.resetpass import send_passreset_email
 import secrets
 from datetime import datetime, date
 from typing import List
@@ -30,7 +30,7 @@ user = APIRouter()
 @user.get("/devicedata", response_model=List[UserDeviceData])
 async def devicedata(
     page: int = Query(1, description="Page number", gt=0),
-    items_per_page: int = Query(10, description="Items per page", gt=0, le=100),
+    items_per_page: int = Query(5, description="Items per page", gt=0, le=100),
     current_user: dict = Depends(get_current_user)):
 
     try:
@@ -52,7 +52,7 @@ async def devicedata(
         device_data = list(device_collection.find({}).skip(skip).limit(items_per_page))
         # Transform MongoDB documents to Pydantic models
         paginated_items = [UserDeviceData(**device_data) for device_data in device_data]
-        print(paginated_items)
+        # print(paginated_items)
         return paginated_items
     
     except HTTPException as http_error:

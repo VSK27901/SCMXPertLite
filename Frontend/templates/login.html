@@ -7,7 +7,9 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../css/login.css">
+    <script src="../js/sample.js"></script>
 </head>
 
 <body>
@@ -33,6 +35,7 @@
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
                     </div>
+                    <div id="error-message" class="error-message"></div>
 
                     <!-- {% if error_message %}
                     <div id="error-message" class="error-message">
@@ -46,7 +49,7 @@
                             <input type="checkbox" id="logcheck">
                             <label for="logcheck" class="text">Remember me</label>
                         </div>
-                        <a href="forgotpasslink.html" class="text">Forgot password?</a>
+                        <a href="forgotpassword.html" class="text">Forgot password?</a>
                     </div>
 
                     <div id="captcha-container" class="g-recaptcha"
