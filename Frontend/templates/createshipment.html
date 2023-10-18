@@ -60,22 +60,22 @@
         </nav>
     </div>
     <div class="container">
-        <form id="shipment-form">
-            <!-- <div id="backEndMessage" style="margin: auto;">
+        <div id="shipment-form">
+            <div id="backEndMessage" style="margin-top: 7px;">
                 <p style="color: red; font-size: small; text-align: center;">Shipment Number Already Exists!</p>
-            </div> -->
+            </div>
             <div class="ship-details">
                 <div class="input-box">
-                    <span class="details">Shipment Number*</span>
+                    <label class="details">Shipment Number<span style="color: red;"> *</span></label>
                     <input type="text" name="shipment_no" placeholder="Enter Shipment Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="shipment-error">Enter Shipment Number</span>
                 </div>
-                <!-- <div class="error-message" id="shipment-error">Enter Shipment Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Container Number*</span>
                     <input type="text" name="container_no" placeholder="Enter Container Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="conatiner-error">Enter Conatiner Number</span>
                 </div>
-                <!-- <div class="error-message" id="conatiner-error">Enter Conatiner Number</div> -->
 
                 <div class="input-box">
                     <label for="route_details" class="details">Route Details*</label>
@@ -90,8 +90,8 @@
                         <option value="Kochin">Kochin</option>
                         <option value="Kolkata">Kolkata</option>
                     </select>
+                    <span class="error-message" style="font-size: 10px;" id="route-error">Choose Route</span>
                 </div>
-                <!-- <div class="error-message" id="route-error">Choose Route</div> -->
 
                 <div class="input-box">
                     <label for="goods_type" class="details">Goods Type*</label>
@@ -102,8 +102,8 @@
                         <option value="Electricals">Electricals</option>
                         <option value="Cosmetics">Cosmetics</option>
                     </select>
+                    <span class="error-message" style="font-size: 10px;" id="goods-error">Choose Goods</span>
                 </div>
-                <!-- <div class="error-message" id="goods-error">Choose Goods</div> -->
 
                 <div class="input-box">
                     <label for="device" class="details">Device*</label>
@@ -112,51 +112,51 @@
                         <option value="11560533076">11560533076</option>
                         <option value="11560533077">11560533077</option>
                     </select>
+                    <span class="error-message" style="font-size: 10px;" id="device-error">Choose Device</span>
                 </div>
-                <!-- <div class="error-message" id="device-error">Choose Device</div> -->
 
                 <div class="input-box">
                     <span class="details">Expected Delivery Date*</span>
                     <input type="date" name="expected_delivery" id="deliverydate" name="Expected Delivery Date"
                         required>
+                    <span class="error-message" style="font-size: 10px;" id="date-error">Enter Date</span>
                 </div>
-                <!-- <div class="error-message" id="date-error">Enter Date</div> -->
 
                 <div class="input-box">
                     <span class="details">PO Number*</span>
                     <input type="text" name="po_no" placeholder="Enter PO Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="po-error">Enter PO Number</span>
                 </div>
-                <!-- <div class="error-message" id="po-error">Enter PO Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Delivery Number*</span>
                     <input type="text" name="delivery_no" placeholder="Delivery Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="delivery-error">Enter Delivery Number</span>
                 </div>
-                <!-- <div class="error-message" id="delivery-error">Enter Delivery Number</div> -->
 
                 <div class="input-box">
                     <span class="details">NDC Number*</span>
                     <input type="text" name="ndc_no" placeholder="Enter NDC Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="ndc-error">Enter NDC Number</span>
                 </div>
-                <!-- <div class="error-message" id="ndc-error">Enter NDC Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Batch id*</span>
                     <input type="text" name="batch_id" placeholder="Enter Batch id" required>
+                    <span class="error-message" style="font-size: 10px;" id="batch-error">Enter Batch id</span>
                 </div>
-                <!-- <div class="error-message" id="batch-error">Enter Batch id</div> -->
 
                 <div class="input-box">
                     <span class="details">Serial Number of Goods*</span>
                     <input type="text" name="serial_no" placeholder="Enter Serial Number of Goods" required>
+                    <span class="error-message" style="font-size: 10px;" id="serial-error">Enter Serial Number</span>
                 </div>
-                <!-- <div class="error-message" id="serial-error">Enter Serial Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Shipment Description*</span>
                     <input type="text" name="shipment_des" placeholder="Enter Shipment Description" required>
+                    <span class="error-message" style="font-size: 10px;" id="description-error">Enter Description</span>
                 </div>
-                <!-- <div class="error-message" id="description-error">Enter Description</div> -->
 
                 <div class="button1">
                     <input type="submit" value="Create Shipment" class="create-shipment-button">
@@ -168,7 +168,7 @@
 
                 </div>
             
-            </form>
+            </div>
         <script src="../js/createship.js"></script>
 </body>
 </form>

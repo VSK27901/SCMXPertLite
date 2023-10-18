@@ -1,9 +1,9 @@
 $(document).ready(function () {
     
-    if(sessionStorage.getItem("username") == null || sessionStorage.getItem("username") == "")
-    {
-        window.location.href="login.html";
-    }
+    // if(sessionStorage.getItem("username") == null || sessionStorage.getItem("username") == "")
+    // {
+    //     window.location.href="login.html";
+    // }
 
     $(".email").text(`Email: ${sessionStorage.getItem("email")}`);
     $(".username").text(`Username: ${sessionStorage.getItem("username")}`);
@@ -37,9 +37,7 @@ $(document).ready(function () {
         $(".forAdmin").hide();
         $(".deviceData").hide();
         $(".viewShipments").hide();
-
     }
-
 });
 
 

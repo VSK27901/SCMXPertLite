@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <link rel="stylesheet" href="../css/dashboard.css" />
     <link rel="stylesheet" href="../css/role.css" />
+    <script src="../js/updaterole.js"></script>
     <script src="../js/dashboard.js"></script>
 </head>
 
@@ -63,11 +64,16 @@
 
     <div class="role-change-container">
         <h2>Change User Role</h2>
-        <form class="role-change-form" action="#" autocomplete="off" method="#">
+        <div id="backEndMessage" style="margin: auto;">
+            <p style="color: red; font-size: small; text-align: center;">Email Not Exist!</p>
+        </div>
+        <!-- <form class="role-change-form" action="#" autocomplete="off" method="#"> -->
             <div class="input-field">
                 <label for="email">Enter the Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter the email" required>
             </div>
+            <div class="error-message" id="email-error">Enter Email</div>
+
             <div class="input-field">
                 <label for="role">Role</label>
                 <select name="newrole" id="role" required>
@@ -76,9 +82,10 @@
                     <option value="User">User</option>
                 </select>
             </div>
+            <div class="error-message" id="role-error">Choose Role</div>
             <button type="submit">Change Role</button>
 
-        </form>
+        <!-- </form> -->
 
     </div>
 </body>

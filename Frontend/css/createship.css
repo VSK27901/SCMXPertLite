@@ -16,7 +16,7 @@ body {
 }
 
 .container {
-    margin-top: 20px; 
+    margin-top: 60px; 
     display: flex;
     flex-direction: column; 
     align-items: center; 
@@ -36,7 +36,7 @@ body {
     color: #9c3838;
 }
 
-.container form .ship-details {
+.container  .ship-details {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -45,7 +45,7 @@ body {
     margin-right: 5%;
 }
 
-form .ship-details .input-box {
+ .ship-details .input-box {
     margin-bottom: 0px; /* Adjust the margin as needed */
     width: calc(50% - 30px);
 }
@@ -53,11 +53,12 @@ form .ship-details .input-box {
 .ship-details .input-box .details {
     display: block;
     font-weight: 400;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
+    font-size: 12px;
 }
 
 .ship-details .input-box input {
-    height: 45px;
+    height: 33px;
     width: 100%;
     outline: none;
     border-radius: 5px;
@@ -74,7 +75,7 @@ form .ship-details .input-box {
 }
 
 .ship-details .input-box select {
-    height: 45px;
+    height: 33px;
     width: 100%;
     outline: none;
     border-radius: 5px;
