@@ -26,6 +26,7 @@ user = APIRouter()
 
 @user.post("/signup", response_model=dict)
 async def signup(request: Request, user_create: UserCreate):
+    print("working")
     try:
         # Check if the username is available
         existing_user = users_collection.find_one({"username": user_create.username})  # db query

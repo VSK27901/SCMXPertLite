@@ -31,8 +31,8 @@ body {
 
 .error-message {
   color: red;
-  font-size: 14px;
-  margin-top: 5px;
+  font-size: small;
+  /* margin-top: 5px; */
 }
 
 

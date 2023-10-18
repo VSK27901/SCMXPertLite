@@ -8,7 +8,7 @@
 }
 
 body{
-    height: 100vh;
+    height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,8 +18,8 @@ body{
 
 .error-message {
     color: red;
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: small;
+    /* margin-top: 5px; */
 }
 
 
@@ -38,7 +38,7 @@ body{
     max-width: 40%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .container .form{
@@ -54,9 +54,9 @@ body{
 
 .form .input-field{
     position: relative;
-    height: 50px;
+    height: 40px;
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .input-field input{
@@ -101,7 +101,7 @@ body{
 .form .checkbox-text{
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .checkbox-text .checkbox-content{
@@ -129,7 +129,7 @@ body{
 }
 
 .form .button{
-    margin-top: 35px;
+    margin-top: 15px; 
 }
 
 .form .button input{
@@ -148,7 +148,7 @@ body{
 }
 
 .form .login-signup{
-    margin-top: 30px;
+    margin-top: 10px;
     text-align: center;
 }
 

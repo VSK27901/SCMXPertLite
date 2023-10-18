@@ -1,73 +1,101 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Get all password input fields
-    const passwordFields = document.querySelectorAll('.password');
+$(document).ready(function () {
 
-    // Get all show/hide password icons
-    const showHideIcons = document.querySelectorAll('.showHidePw');
-
-    // Add click event listener to each show/hide password icon
-    showHideIcons.forEach(function (icon, index) {
-        icon.addEventListener('click', function () {
-            // Toggle the password field between "password" and "text" type
-            if (passwordFields[index].type === "password") {
-                passwordFields[index].type = "text";
-                icon.classList.remove("uil-eye-slash");
-                icon.classList.add("uil-eye");
-            } else {
-                passwordFields[index].type = "password";
-                icon.classList.remove("uil-eye");
-                icon.classList.add("uil-eye-slash");
-            }
-        });
+    //To hide the messages
+    $("#errorMessage").css("visibility", "hidden");
+    $("#username-error").css("visibility", "hidden");
+    $("#password-error").css("visibility", "hidden");
+    // Code for password hide and show
+    $(".showHidePw").click(function () {
+        $(this).toggleClass("uil-eye-slash uil-eye");
+        var passwordField = $(this).siblings(".password");
+        if (passwordField.attr("type") === "password") {
+            passwordField.attr("type", "text");
+        } else {
+            passwordField.attr("type", "password");
+        }
     });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-    var errorMessage = document.getElementById("error-message");
-
-    if (errorMessage) {
-        errorMessage.style.display = "block";
-        setTimeout(function () {
-            errorMessage.style.display = "none";
-        }, 5000);
+    function ValidateEmail(inputText) {
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (!inputText.match(mailformat)) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-});
 
-const loginForm = document.getElementById("login-form");
+    $(".email").click(function(){
+        $("#username-error").css("visibility", "hidden");
+        $("#errorMessage").css("visibility", "hidden");
+    });
 
-loginForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    $(".password").click(function(){
+        // alert("paaaa");
+        $("#password-error").css("visibility", "hidden");
+        $("#errorMessage").css("visibility", "hidden");
+    });
 
-    // Make a POST request to your FastAPI login route
-    fetch('/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Store the access token in local storage
-            localStorage.setItem('access_token', data.access_token);
+    $("#submit-button").click(function () {
+        let create = true;
 
-            // Redirect to the dashboard page
-            window.location.href = 'dashboard.html';
-        })
-        .catch(error => {
-            // Handle login error, e.g., display an error message
-            if (error.status === 400) {
-                // Handle specific error messages
-                if (error.detail === "User not found") {
-                    errorMessage.innerText = "User not found";
-                } else if (error.detail === "Incorrect Password") {
-                    errorMessage.innerText = "Incorrect password. Please try again.";
-                } else {
-                    errorMessage.innerText = "An error occurred during login.";
-                }
-                errorMessage.style.display = "block";
+        let username = $(".email").val();
+        let password = $(".password").val();
+
+        if(username == "")
+        {
+            $("#username-error").css("visibility", "visible");
+        }
+        else
+        {
+            if(ValidateEmail(username))
+            {
+                $("#username-error").css("visibility", "visible");
+                $("#username-error").text("Email is Not valid"); 
+                create = false; 
             }
-        });
+        }
+
+        if( password.length == 0)
+        {
+            $("#password-error").css("visibility", "visible");
+            create = false; 
+        }
+
+
+        if(create)
+        {
+            const formData = new URLSearchParams();
+
+            formData.append('username', `${username}`);
+            formData.append('password', `${password}`);
+
+            fetch(`http://${window.location.hostname}:8000/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                mode: 'cors',
+                body: formData,
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle successful login, e.g., redirect to the dashboard
+                    localStorage.setItem('access_token', data.access_token);
+                    sessionStorage.setItem('username', data.current_user.username);
+                    sessionStorage.setItem('email', data.current_user.email);
+                    sessionStorage.setItem('role', data.current_user.role);
+                    window.location.href = 'dashboard.html';
+                })
+                .catch(error => {
+                    $("#errorMessage").css("visibility", "visible");
+                });
+        }
+    });
 });

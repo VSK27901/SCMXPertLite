@@ -12,6 +12,7 @@ EMAIL_SENDER = os.getenv("EMAIL_SENDER")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 EMAIL_HOST = os.getenv("EMAIL_HOST") 
 EMAIL_PORT = os.getenv("EMAIL_PORT")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
 
 def send_verification_email(username, email, verification_token):
     subject = "Email Verification"
@@ -29,7 +30,7 @@ def send_verification_email(username, email, verification_token):
 
     # Email body with a verification link
     body = f"Hello {username},\n\nPlease click the following link to verify your email address:\n"
-    verification_link = f"http://127.0.0.1:8000/verification?token={verification_token}"  
+    verification_link = f"http://{FRONTEND_URL}/templates/verification.html?token={verification_token}"  
     body += verification_link
     em.set_content(body)
 

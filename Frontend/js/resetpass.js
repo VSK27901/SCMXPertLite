@@ -1,29 +1,115 @@
-document.addEventListener("DOMContentLoaded", () => {
-const passwordInputs = document.querySelectorAll(".password");
-const showHideButtons = document.querySelectorAll(".showHidePw");
+$(document).ready(function () {
+    $("#password-error").css("visibility", "hidden");
+    $("#confirm-password-error").css("visibility", "hidden");
 
-// Show or hide password
-showHideButtons.forEach(button => {
-    button.addEventListener("click", () => {
-    const inputField = button.parentElement.querySelector(".password");
-    if (inputField.type === "password") {
-        inputField.type = "text";
-        button.classList.replace("uil-eye-slash", "uil-eye");
-    } else {
-        inputField.type = "password";
-        button.classList.replace("uil-eye", "uil-eye-slash");
-    }
+
+      // Code for password hide and show
+    $(".showHidePw").click(function () {
+        $(this).toggleClass("uil-eye-slash uil-eye");
+        // Toggle the password field between "password" and "text" type
+        var passwordField = $(this).closest(".input-field").find(".password");
+        var confirmpasswordField = $(this).closest(".input-field").find(".confirmpassword");
+
+        if (passwordField.attr("type") === "password") {
+            passwordField.attr("type", "text");
+        } else {
+            passwordField.attr("type", "password");
+        }
+
+        if (confirmpasswordField.attr("type") === "password") {
+            confirmpasswordField.attr("type", "text");
+        } else {
+            confirmpasswordField.attr("type", "password");
+        }
     });
-});
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-    var errorMessage = document.getElementById("error-message");
 
-    if (errorMessage) {
-        errorMessage.style.display = "block";
-        setTimeout(function () {
-            errorMessage.style.display = "none"; 
-        }, 5000); 
+    //errors
+    $(".password").click(function(){
+        $("#password-error").css("visibility", "hidden");
+    });
+
+    $(".confirmpassword").click(function(){
+        $("#confirm-password-error").css("visibility", "hidden");
+    });
+
+    function CheckPassword(inputtxt) 
+    {
+        var paswd= /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,25}$/;
+        if (!inputtxt.match(paswd)) 
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
+
+    $("#submit-button").click(function(){
+        let create = true;
+        let password = $(".password").val().trim();
+        let confirmpassword = $(".confirmpassword").val().trim();
+
+        if(password=="")
+        {
+            $("#password-error").css("visibility", "visible");
+            create = false;
+        }
+        if(confirmpassword=="")
+        {
+            $("#confirm-password-error").css("visibility", "visible");
+            create = false;
+        }
+        
+        else
+        {
+            let status = CheckPassword(password);
+            if(status == false)
+            {
+                $("#password-error").css("visibility", "visible");
+                $("#password-error").text("Password Requirements: 8+ characters, 1 digit, 1 capital letter, 1 special character."); 
+                create = false; 
+            }
+        }
+        if(confirmpassword=="")
+        {
+            $("#confirm-password-error").css("visibility", "visible");
+            create = false;
+        }
+        else if(password != confirmpassword)
+        {
+            $("#confirm-password-error").css("visibility", "visible");
+            $("#confirm-password-error").text("Password does not match");
+            create = false;
+        }
+
+        if(create)
+        {
+            console.log("in if contion");
+
+            fetch(`http://${window.location.hostname}:8000/resetpassword`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                mode: 'cors',
+                body: JSON.stringify({"token": token, "password": password, "confirm_password": confirmpassword}),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // console.log(data);
+                    window.location.href = 'resetlink.html';
+                })
+                .catch(error => {
+                    // console.log("erroe...........");
+                    $("#backEndMessage").css("visibility", "visible");
+                });
+        }
+    });
 });

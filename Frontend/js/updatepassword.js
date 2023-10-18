@@ -1,53 +1,49 @@
 $(document).ready(function () {
-    $("#backEndMessage").css("visibility", "hidden");
-    $("#username-error").css("visibility", "hidden");
-    $("#email-error").css("visibility", "hidden");
+    $("#old-password-error").css("visibility", "hidden");
     $("#password-error").css("visibility", "hidden");
     $("#confirm-password-error").css("visibility", "hidden");
-    
-    // Code for password hide and show
+
+
+      // Code for password hide and show
     $(".showHidePw").click(function () {
         $(this).toggleClass("uil-eye-slash uil-eye");
         // Toggle the password field between "password" and "text" type
+        var oldpasswordField = $(this).closest(".input-field").find(".oldpassword");
         var passwordField = $(this).closest(".input-field").find(".password");
+        var confirmpasswordField = $(this).closest(".input-field").find(".confirmpassword");
+        
+        if (oldpasswordField.attr("type") === "password") {
+            oldpasswordField.attr("type", "text");
+        } else {
+            oldpasswordField.attr("type", "password");
+        }
+
         if (passwordField.attr("type") === "password") {
             passwordField.attr("type", "text");
         } else {
             passwordField.attr("type", "password");
         }
+
+        if (confirmpasswordField.attr("type") === "password") {
+            confirmpasswordField.attr("type", "text");
+        } else {
+            confirmpasswordField.attr("type", "password");
+        }
     });
 
-    function ValidateEmail(inputText) {
-        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        if (!inputText.match(mailformat)) {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
-    $(".name").click(function(){
-        $("#username-error").css("visibility", "hidden");
-        $("#backEndMessage").css("visibility", "hidden");
+    //errors
+    $(".oldpassword").click(function(){
+        $("#old-password-error").css("visibility", "hidden");
     });
-    $(".email").click(function(){
-        $("#email-error").css("visibility", "hidden");
-        $("#backEndMessage").css("visibility", "hidden");
-    });
-    
+
     $(".password").click(function(){
-        // alert("paaaa");
         $("#password-error").css("visibility", "hidden");
-        $("#backEndMessage").css("visibility", "hidden");
-    });
-    $(".confirmpassword").click(function(){
-        // alert("paaaa");
-        $("#confirm-password-error").css("visibility", "hidden");
-        $("#backEndMessage").css("visibility", "hidden");
     });
 
+    $(".confirmpassword").click(function(){
+        $("#confirm-password-error").css("visibility", "hidden");
+    });
 
     function CheckPassword(inputtxt) 
     {
@@ -65,30 +61,26 @@ $(document).ready(function () {
     $("#submit-button").click(function(){
         let create = true;
 
-        let name = $(".name").val().trim();
-        let email = $(".email").val().trim();
+        let oldpassword = $(".oldpassword").val().trim();
         let password = $(".password").val().trim();
         let confirmpassword = $(".confirmpassword").val().trim();
 
-        if(name=="")
+        if(oldpassword=="")
         {
-            $("#username-error").css("visibility", "visible");
+            $("#old-password-error").css("visibility", "visible");
             create = false; 
         }
-        if(email=="")
+        if(password=="")
         {
-            $("#email-error").css("visibility", "visible");
+            $("#password-error").css("visibility", "visible");
             create = false;
         }
-        else
+        if(confirmpassword=="")
         {
-            if(ValidateEmail(email))
-            {
-                $("#email-error").css("visibility", "visible");
-                $("#email-error").text("Email is Not valid"); 
-                create = false; 
-            }
+            $("#confirm-password-error").css("visibility", "visible");
+            create = false;
         }
+
         if(password=="")
         {
             $("#password-error").css("visibility", "visible");
@@ -120,13 +112,13 @@ $(document).ready(function () {
         {
             console.log("in if contion");
 
-            fetch(`http://${window.location.hostname}:8000/signup`, {
+            fetch(`http://${window.location.hostname}:8000/updatepassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 mode: 'cors',
-                body: JSON.stringify({"username": name, "password": password, "email": email, "confirm_password": confirmpassword}),
+                body: JSON.stringify({"oldpassword": oldpassword, "password": password, "confirm_password": confirmpassword}),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -136,7 +128,7 @@ $(document).ready(function () {
                 })
                 .then(data => {
                     // console.log(data);
-                    window.location.href = 'accverification.html';
+                    window.location.href = 'successpass.html';
                 })
                 .catch(error => {
                     // console.log("erroe...........");
@@ -145,13 +137,3 @@ $(document).ready(function () {
         }
     });
 });
-
-
-
-
-
-
-
-
-
-

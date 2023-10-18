@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <title>Create Shipment</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/dashboard.css" />
     <link rel="stylesheet" href="../css/createship.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/createship.js"></script>
     <script src="../js/dashboard.js"></script>
 </head>
 
@@ -38,40 +39,43 @@
                         <span class="nav_name">My Shipment</span>
                     </a>
                     <a href="createshipment.html" class="active">
-                        <i class='bx bx-notepad'></i>
+                        <i class='bx bxs-truck'></i>
                         <span class="nav_name">New Shipment</span>
                     </a>
-                    <a href="viewallshipments.html" class="nav_link">
+                    <a href="viewallshipments.html" class="nav_link viewShipments">
                         <i class='bx bx-package'></i>
                         <span class="nav_name">View Shipments</span>
                     </a>
-                    <a href="devicedata.html" class="nav_link">
+                    <a href="devicedata.html" class="nav_link deviceData">
                         <i class='bx bx-hdd'></i>
                         <span class="nav_name">Device Data</span>
                     </a>
 
                 </div>
             </div>
-            <a href="../index.html" class="nav_link">
+            <a href="../index.html" class="nav_link logout">
                 <i class='bx bx-log-out nav_icon'></i>
                 <span class="nav_name">SignOut</span>
             </a>
         </nav>
     </div>
     <div class="container">
-        <form action="#" autocomplete="off" method="#" id="shipment-form">
+        <form id="shipment-form">
+            <!-- <div id="backEndMessage" style="margin: auto;">
+                <p style="color: red; font-size: small; text-align: center;">Shipment Number Already Exists!</p>
+            </div> -->
             <div class="ship-details">
                 <div class="input-box">
                     <span class="details">Shipment Number*</span>
                     <input type="text" name="shipment_no" placeholder="Enter Shipment Number" required>
-                    <!-- Error message for shipment number -->
-                    <!-- <div id="shipment-number-error" class="error-message">{{ shipment_number_error }}</div> -->
                 </div>
+                <!-- <div class="error-message" id="shipment-error">Enter Shipment Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Container Number*</span>
                     <input type="text" name="container_no" placeholder="Enter Container Number" required>
                 </div>
+                <!-- <div class="error-message" id="conatiner-error">Enter Conatiner Number</div> -->
 
                 <div class="input-box">
                     <label for="route_details" class="details">Route Details*</label>
@@ -87,6 +91,7 @@
                         <option value="Kolkata">Kolkata</option>
                     </select>
                 </div>
+                <!-- <div class="error-message" id="route-error">Choose Route</div> -->
 
                 <div class="input-box">
                     <label for="goods_type" class="details">Goods Type*</label>
@@ -98,6 +103,7 @@
                         <option value="Cosmetics">Cosmetics</option>
                     </select>
                 </div>
+                <!-- <div class="error-message" id="goods-error">Choose Goods</div> -->
 
                 <div class="input-box">
                     <label for="device" class="details">Device*</label>
@@ -107,49 +113,50 @@
                         <option value="11560533077">11560533077</option>
                     </select>
                 </div>
+                <!-- <div class="error-message" id="device-error">Choose Device</div> -->
 
                 <div class="input-box">
                     <span class="details">Expected Delivery Date*</span>
                     <input type="date" name="expected_delivery" id="deliverydate" name="Expected Delivery Date"
                         required>
                 </div>
+                <!-- <div class="error-message" id="date-error">Enter Date</div> -->
 
                 <div class="input-box">
                     <span class="details">PO Number*</span>
                     <input type="text" name="po_no" placeholder="Enter PO Number" required>
                 </div>
+                <!-- <div class="error-message" id="po-error">Enter PO Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Delivery Number*</span>
                     <input type="text" name="delivery_no" placeholder="Delivery Number" required>
                 </div>
+                <!-- <div class="error-message" id="delivery-error">Enter Delivery Number</div> -->
 
                 <div class="input-box">
                     <span class="details">NDC Number*</span>
                     <input type="text" name="ndc_no" placeholder="Enter NDC Number" required>
                 </div>
+                <!-- <div class="error-message" id="ndc-error">Enter NDC Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Batch id*</span>
                     <input type="text" name="batch_id" placeholder="Enter Batch id" required>
                 </div>
+                <!-- <div class="error-message" id="batch-error">Enter Batch id</div> -->
 
                 <div class="input-box">
                     <span class="details">Serial Number of Goods*</span>
                     <input type="text" name="serial_no" placeholder="Enter Serial Number of Goods" required>
                 </div>
+                <!-- <div class="error-message" id="serial-error">Enter Serial Number</div> -->
 
                 <div class="input-box">
                     <span class="details">Shipment Description*</span>
                     <input type="text" name="shipment_des" placeholder="Enter Shipment Description" required>
                 </div>
-
-                <!-- Display error message if it exists
-                {% if error_message %}
-                <div id="error-message" class="error-message">
-                    <p>{{ error_message }}</p>
-                </div>
-                {% endif %} -->
+                <!-- <div class="error-message" id="description-error">Enter Description</div> -->
 
                 <div class="button1">
                     <input type="submit" value="Create Shipment" class="create-shipment-button">
@@ -161,10 +168,7 @@
 
                 </div>
             
-            </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            </form>
         <script src="../js/createship.js"></script>
 </body>
 </form>

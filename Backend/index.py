@@ -10,8 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:8000",
+    "*"
 ]
 
 # Configure CORS middleware to allow cross-origin requests

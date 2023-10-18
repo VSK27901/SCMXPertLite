@@ -7,6 +7,7 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/userslist.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/dashboard.js"></script>
     <title>Users List</title>
 </head>
@@ -37,7 +38,7 @@
                         <span class="nav_name">My Shipment</span>
                     </a>
                     <a href="createshipment.html" class="nav_link">
-                        <i class='bx bx-notepad'></i>
+                        <i class='bx bxs-truck'></i>
                         <span class="nav_name">New Shipment</span>
                     </a>
                     <a href="viewallshipments.html" class="nav_link">
@@ -51,19 +52,12 @@
 
                 </div>
             </div>
-            <a href="../index.html" class="nav_link">
+            <a href="../index.html" class="nav_link logout">
                 <i class='bx bx-log-out nav_icon'></i>
                 <span class="nav_name">SignOut</span>
             </a>
         </nav>
     </div>
-
-    <!-- Display error message if it exists -->
-    <!-- {% if error_message %}
-    <div id="error-message" class="error-message">
-        <p>{{ error_message }}</p>
-    </div>
-    {% endif %} -->
 
     <div class="table-scroll">
         <div class="container">

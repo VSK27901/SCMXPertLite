@@ -1,80 +1,99 @@
-document.addEventListener("DOMContentLoaded", function (event) {
+$(document).ready(function () {
+    if(sessionStorage.getItem("username") == null || sessionStorage.getItem("username") == "")
+    {
+        window.location.href="login.html";
+    }
+    $(".welcome-text").text(`Welcome! to SCMXPertLite, ${sessionStorage.getItem("username")}`);
+
+
+
+    if(sessionStorage.getItem("role") == "admin")
+    {
+        $(".forUser").hide();
+    }
+    else
+    {
+        $(".forAdmin").hide();
+        $(".deviceData").hide();
+        $(".viewShipments").hide();
+        // $(".nav_name").hide();
+
+    }
+
+});
+
+
+$(document).ready(function () {
     // Function to toggle the navigation menu
-    const showNavbar = (toggleId, navId, bodyId, headerId) => {
-        const toggle = document.getElementById(toggleId),
-            nav = document.getElementById(navId),
-            bodypd = document.getElementById(bodyId),
-            headerpd = document.getElementById(headerId)
+    function showNavbar(toggleId, navId, bodyId, headerId) {
+        const toggle = $(toggleId);
+        const nav = $(navId);
+        const bodypd = $(bodyId);
+        const headerpd = $(headerId);
 
         if (toggle && nav && bodypd && headerpd) {
             // Toggle the navigation menu visibility on click
-            toggle.addEventListener('click', () => {
-                nav.classList.toggle('show')
-                toggle.classList.toggle('bx-x')
-                bodypd.classList.toggle('body-pd')
-                headerpd.classList.toggle('body-pd')
-            })
+            toggle.click(function () {
+                nav.toggleClass('show');
+                toggle.toggleClass('bx-x');
+                bodypd.toggleClass('body-pd');
+                headerpd.toggleClass('body-pd');
+            });
         }
     }
 
     // Call the showNavbar function to enable the navigation menu toggle
-    showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
+    showNavbar('#header-toggle', '#nav-bar', '#body-pd', '#header');
 
     // Get all navigation links
-    const linkColor = document.querySelectorAll('.nav_link')
+    const linkColor = $('.nav_link');
 
     // Function to handle link click and change its color
     function colorLink() {
         if (linkColor) {
             // Remove 'active' class from all links
-            linkColor.forEach(l => l.classList.remove('active'))
+            linkColor.removeClass('active');
             // Add 'active' class to the clicked link
-            this.classList.add('active')
+            $(this).addClass('active');
         }
     }
 
     // Add click event listener to navigation links
-    linkColor.forEach(l => l.addEventListener('click', colorLink))
+    linkColor.click(colorLink);
 
     // Check if the username element exists
-    const usernameElement = document.querySelector('.username');
-    if (usernameElement) {
+    const usernameElement = $('.username');
+    if (usernameElement.length > 0) {
         // Check if the username is empty (not logged in)
-        if (usernameElement.textContent.trim() === '') {
+        if (usernameElement.text().trim() === '') {
             // Hide the user-info section
-            document.querySelector('.user-info').style.display = 'none';
+            $('.user-info').css('display', 'none');
         }
     }
 
     // Get the 'Create Shipment' button and shipment iframe elements
-    const createShipmentBtn = document.getElementById("create-shipment-btn");
-    const createshipmentIframe = document.getElementById("createshipment-iframe");
+    const createShipmentBtn = $("#create-shipment-btn");
+    const createshipmentIframe = $("#createshipment-iframe");
 
     // Add click event listener to 'Create Shipment' button
-    createShipmentBtn.addEventListener("click", function () {
+    createShipmentBtn.click(function () {
         // Show the shipment iframe when the button is clicked
-        createshipmentIframe.style.display = "block";
+        createshipmentIframe.css('display', 'block');
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    var errorMessage = document.getElementById("error-message");
 
-    if (errorMessage) {
-        errorMessage.style.display = "block";
-        setTimeout(function () {
-            errorMessage.style.display = "none"; 
-        }, 5000); 
-    }
+$(document).ready(function() {
+    // Logout button click event
+    $(".logout").click(function() {
+        // Clear local storage
+        localStorage.clear();
+
+        // Clear session storage
+        sessionStorage.clear();
+
+        // Redirect to the index page
+        window.location.href = 'index.html';
+    });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    var successMessage = document.getElementById("success-message");
-
-    if (successMessage) {
-        successMessage.style.display = "block";
-        setTimeout(function () {
-            successMessage.style.display = "none"; 
-        }, 5000); 
-    }
-});

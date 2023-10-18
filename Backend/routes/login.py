@@ -15,6 +15,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import secrets
 from datetime import datetime, date
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
 
 
 # To create an instance of APIRouter for user-related routes
