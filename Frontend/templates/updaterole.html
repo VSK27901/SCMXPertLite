@@ -67,12 +67,15 @@
         <div id="backEndMessage" style="margin: auto;">
             <p style="color: red; font-size: small; text-align: center;">Email Not Exist!</p>
         </div>
+        <div id="successMessage" style="margin: auto;">
+            <p style="color: green; font-size: small; text-align: center;">User role updated successfully</p>
+        </div>
         <!-- <form class="role-change-form" action="#" autocomplete="off" method="#"> -->
             <div class="input-field">
                 <label for="email">Enter the Email</label>
                 <input type="email" name="email" id="email" placeholder="Enter the email" required>
+                <div class="error-message" id="email-error">Enter Email</div>
             </div>
-            <div class="error-message" id="email-error">Enter Email</div>
 
             <div class="input-field">
                 <label for="role">Role</label>
@@ -81,9 +84,9 @@
                     <option value="admin">Admin</option>
                     <option value="User">User</option>
                 </select>
+                <div class="error-message" id="role-error">Choose Role</div>
             </div>
-            <div class="error-message" id="role-error">Choose Role</div>
-            <button type="submit">Change Role</button>
+            <button type="submit" id="submit-button">Change Role</button>
 
         <!-- </form> -->
 

@@ -15,21 +15,37 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import secrets
 from datetime import datetime, date
+from typing import List
+from fastapi.responses import JSONResponse
 
 
 # To create an instance of APIRouter for user-related routes
 user = APIRouter()
 
 
+@user.get("/myshipment", response_model=list)
+async def myshipment(request: Request, current_user: dict = Depends(get_current_user)):
+    try:
+        if current_user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+        print(current_user)
+        print(current_user["username"])
+        # Fetch shipment data for the current user from the MongoDB collection
+        # shipments_collection.find({"username": current_user})
+        user_shipments = list(shipments_collection.find({"username":current_user["username"] },{"_id":0}))
+        print(user_shipments)
+        # Pass the data to the HTML template
+        return JSONResponse(content=user_shipments)
+    except HTTPException as http_error:
+        if http_error.detail == "Not authenticated":
+            raise HTTPException(status_code=400, detail=http_error.detail)
+
 ###### ----------Route for Createshipment----------######
 
 @user.post("/createshipment", response_model=dict)
 async def createshipment(request: Request, user_ship: UserCreateShipment, 
                             current_user: dict = Depends(get_current_user)):
-
     try:
-        # print(current_user)
-        # current_user: dict = Depends(get_current_user(access_token))
         if current_user is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
 

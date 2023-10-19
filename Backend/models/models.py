@@ -30,6 +30,9 @@ class UserUpdatePassword(BaseModel):
     password: str
     confirm_password: str
 
+class UserUpdateRole(BaseModel):
+    email: EmailStr
+    newrole: str
 
 class UserCreateShipment(BaseModel):
     shipment_no: str 
@@ -52,6 +55,12 @@ class UserDeviceData(BaseModel):
     Route_From: str
     Route_To: str
 
+class UserList(BaseModel):
+    email: EmailStr
+    username: str
+    role: str
+    creation_date: int
+    creation_time: int
 
 
 

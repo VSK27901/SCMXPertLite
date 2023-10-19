@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+    if(sessionStorage.getItem("username") == null || sessionStorage.getItem("username") == "")
+    {
+        window.location.href="login.html";
+    }
+
     $("#old-password-error").css("visibility", "hidden");
     $("#password-error").css("visibility", "hidden");
     $("#confirm-password-error").css("visibility", "hidden");
@@ -110,30 +116,30 @@ $(document).ready(function () {
 
         if(create)
         {
-            console.log("in if contion");
-
-            fetch(`http://${window.location.hostname}:8000/updatepassword`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                mode: 'cors',
-                body: JSON.stringify({"oldpassword": oldpassword, "password": password, "confirm_password": confirmpassword}),
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
+                console.log("in if contion");
+                fetch(`http://${window.location.hostname}:8000/updatepassword`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({"oldpassword": oldpassword, "password": password, "confirm_password": confirmpassword}),
                 })
-                .then(data => {
-                    // console.log(data);
-                    window.location.href = 'successpass.html';
-                })
-                .catch(error => {
-                    // console.log("erroe...........");
-                    $("#backEndMessage").css("visibility", "visible");
-                });
-        }
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // console.log(data);
+                        window.location.href = 'successpass.html';
+                    })
+                    .catch(error => {
+                        // console.log("erroe...........");
+                        $("#backEndMessage").css("visibility", "visible");
+                    });
+            }
     });
 });

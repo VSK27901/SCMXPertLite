@@ -5,15 +5,23 @@ $(document).ready(function () {
     $("#password-error").css("visibility", "hidden");
     $("#confirm-password-error").css("visibility", "hidden");
     
-    // Code for password hide and show
+     // Code for password hide and show
     $(".showHidePw").click(function () {
         $(this).toggleClass("uil-eye-slash uil-eye");
         // Toggle the password field between "password" and "text" type
         var passwordField = $(this).closest(".input-field").find(".password");
+        var confirmpasswordField = $(this).closest(".input-field").find(".confirmpassword");
+        
         if (passwordField.attr("type") === "password") {
             passwordField.attr("type", "text");
         } else {
             passwordField.attr("type", "password");
+        }
+
+        if (confirmpasswordField.attr("type") === "password") {
+            confirmpasswordField.attr("type", "text");
+        } else {
+            confirmpasswordField.attr("type", "password");
         }
     });
 

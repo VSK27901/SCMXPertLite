@@ -4,6 +4,7 @@ from Backend.routes.password import user as password
 from Backend.routes.shipment import user as shipment
 from Backend.routes.signup import user as signup
 from Backend.routes.devicedata import user as devicedata
+from Backend.routes.dashboard import user as dashboard
 from fastapi.middleware.cors import CORSMiddleware
 
 # Create a FastAPI instance
@@ -27,5 +28,6 @@ app.include_router(password)    # Password-related routes
 app.include_router(shipment)    # Shipment-related routes
 app.include_router(signup)      # Signup and verification routes
 app.include_router(devicedata)  # Device data routes
+app.include_router(dashboard)
 
 

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $("#password-error").css("visibility", "hidden");
     $("#confirm-password-error").css("visibility", "hidden");
 
@@ -87,14 +88,15 @@ $(document).ready(function () {
         if(create)
         {
             console.log("in if contion");
-
+            const url = new URL(window.location.href);
+            const token = url.searchParams.get("token");
             fetch(`http://${window.location.hostname}:8000/resetpassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 mode: 'cors',
-                body: JSON.stringify({"token": token, "password": password, "confirm_password": confirmpassword}),
+                body: JSON.stringify({"token": token, "new_password": password, "confirm_new_password":  confirmpassword}),
             })
                 .then(response => {
                     if (!response.ok) {
@@ -109,7 +111,9 @@ $(document).ready(function () {
                 .catch(error => {
                     // console.log("erroe...........");
                     $("#backEndMessage").css("visibility", "visible");
-                });
-        }
+                }); 
+            }  
+        });
     });
-});
+
+
