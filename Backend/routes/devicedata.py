@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
-from Backend.models.models import User, UserDeviceData
+from Backend.models.models import User, UserDeviceData, UserDeviceid
 from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
 from Backend.utils import Hash, create_access_token, get_current_user, decode_token
 from bson import ObjectId
@@ -18,6 +18,7 @@ from Backend.email.resetpass import send_passreset_email
 import secrets
 from datetime import datetime, date
 from typing import List
+from fastapi.responses import JSONResponse
 
 
 
@@ -27,10 +28,11 @@ user = APIRouter()
 
 ###### ----------Route for devicedata----------######
 
-@user.get("/devicedata", response_model=List[UserDeviceData])
+@user.get("/devicedata", response_model=list)
 async def devicedata(
     page: int = Query(1, description="Page number", gt=0),
     items_per_page: int = Query(5, description="Items per page", gt=0, le=100),
+    device_id: str = Query(..., description="Device ID"),
     current_user: dict = Depends(get_current_user)):
 
     try:
@@ -49,17 +51,55 @@ async def devicedata(
         skip = (page - 1) * items_per_page
 
         # Fetch paginated items from MongoDB
-        device_data = list(device_collection.find({}).skip(skip).limit(items_per_page))
+        device_data = list(device_collection.find({"Device_Id": int(device_id)}, {"_id":0}).skip(skip).limit(items_per_page))
         # Transform MongoDB documents to Pydantic models
+        # print(device_data)
         paginated_items = [UserDeviceData(**device_data) for device_data in device_data]
         # print(paginated_items)
-        return paginated_items
+        return JSONResponse(content=device_data)
     
     except HTTPException as http_error:
         if http_error.detail == "Not authenticated":
             raise HTTPException(
                 status_code=400, detail=http_error.detail)
         raise http_error  
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Internal Server Error: {str(e)}")
+
+
+###### ----------Route for devicedata post method----------######
+
+# http://127.0.0.1:8000/devicedata?device_id=your-device-id
+@user.post("/devicedata", response_model=List[UserDeviceData])
+async def devicedata(
+    device_id: str = Query(..., description="Device ID"),
+    current_user: dict = Depends(get_current_user)):
+
+    try:
+        if current_user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+
+        # Get the role of the current user
+        role = current_user.get('role')
+
+        # Check if the user has the 'admin' role, if not, return an error message
+        if role != "admin":
+            raise HTTPException(status_code=403, detail="Only admins can access")
+
+        # Fetch device data from the MongoDB collection based on the selected device ID
+        device_data_cursor = device_collection.find({"Device_Id": device_id})
+
+        # Convert the cursor to a list of dictionaries
+        device_data_list = list(device_data_cursor)
+
+        return JSONResponse(content=device_data_list)  # Return the list as JSONResponse
+    except HTTPException as http_error:
+        if http_error.detail == "Not authenticated":
+            raise HTTPException(status_code=400, detail=http_error.detail)
+        if http_error.detail == "Only admins can access":
+            raise HTTPException(status_code=400, detail=http_error.detail)
+        raise http_error
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Internal Server Error: {str(e)}")

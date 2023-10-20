@@ -23,23 +23,6 @@ from fastapi.responses import JSONResponse
 user = APIRouter()
 
 
-@user.get("/myshipment", response_model=list)
-async def myshipment(request: Request, current_user: dict = Depends(get_current_user)):
-    try:
-        if current_user is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
-        print(current_user)
-        print(current_user["username"])
-        # Fetch shipment data for the current user from the MongoDB collection
-        # shipments_collection.find({"username": current_user})
-        user_shipments = list(shipments_collection.find({"username":current_user["username"] },{"_id":0}))
-        print(user_shipments)
-        # Pass the data to the HTML template
-        return JSONResponse(content=user_shipments)
-    except HTTPException as http_error:
-        if http_error.detail == "Not authenticated":
-            raise HTTPException(status_code=400, detail=http_error.detail)
-
 ###### ----------Route for Createshipment----------######
 
 @user.post("/createshipment", response_model=dict)
@@ -93,5 +76,51 @@ async def createshipment(request: Request, user_ship: UserCreateShipment,
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+
+
+@user.get("/myshipment", response_model=list)
+async def myshipment(request: Request, current_user: dict = Depends(get_current_user)):
+    try:
+        if current_user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+
+        user_shipments = list(shipments_collection.find({"username":current_user["username"] },{"_id":0}))
+
+        return JSONResponse(content=user_shipments)
+    except HTTPException as http_error:
+        if http_error.detail == "Not authenticated":
+            raise HTTPException(status_code=400, detail=http_error.detail)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
+
+
+###### ----------route to view all shipments in the db(Only admins are allowed)----------######
+
+@user.get("/viewallshipments", response_model=list[dict])
+async def viewallshipments(request: Request, current_user: dict = Depends(get_current_user)):
+    try:
+        if current_user is None:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+
+        # Fetch shipment data from the MongoDB collection
+        user_shipments = shipments_collection.find({})
+
+        role = current_user.get('role')
+
+        # Check if the user has the 'admin' role, if not, return an error message
+        if role != "admin":
+            raise HTTPException(status_code=403, detail="Only admins can access")
+
+        user_shipments = list(shipments_collection.find({},{"_id":0}))
+
+        return JSONResponse(content=user_shipments)
+    
+    except HTTPException as http_error:
+        if http_error.detail == "Not authenticated":
+            raise HTTPException(status_code=400, detail=http_error.detail)
+        raise http_error
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 

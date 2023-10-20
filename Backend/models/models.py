@@ -62,6 +62,8 @@ class UserList(BaseModel):
     creation_date: int
     creation_time: int
 
+class UserDeviceid(BaseModel):
+    deviceid: int
 
 
 

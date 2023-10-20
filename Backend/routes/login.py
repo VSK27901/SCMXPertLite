@@ -10,8 +10,8 @@ from jose import jwt, JWTError
 from fastapi.responses import HTMLResponse, RedirectResponse
 import re
 import requests
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
+# from fastapi.templating import Jinja2Templates
+# from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import secrets
 from datetime import datetime, date
