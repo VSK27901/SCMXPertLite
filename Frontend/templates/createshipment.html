@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <title>Create Shipment</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/createship.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/createship.css" />
+</head>
+
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="header_toggle">
+            <i class='bx bx-menu' id="header-toggle"></i>
+        </div>
+        <div class="logo-container">
+            <span>Create Shipment</span>
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <div class="nav_list">
+                    <a href="dashboard.html" class="nav_link">
+                        <i class='bx bx-grid-alt nav_icon'></i>
+                        <span class="nav_name">Dashboard</span>
+                    </a>
+                    <a href="myaccount.html" class="nav_link">
+                        <i class='bx bx-user nav_icon'></i>
+                        <span class="nav_name">My Account</span>
+                    </a>
+                    <a href="myshipment.html" class="nav_link">
+                        <i class='bx bxs-book-content'></i>
+                        <span class="nav_name">My Shipment</span>
+                    </a>
+                    <a href="createshipment.html" class="active">
+                        <i class='bx bxs-truck'></i>
+                        <span class="nav_name">New Shipment</span>
+                    </a>
+                    <a href="viewallshipments.html" class="nav_link viewShipments">
+                        <i class='bx bx-package'></i>
+                        <span class="nav_name">View Shipments</span>
+                    </a>
+                    <a href="devicedata.html" class="nav_link deviceData">
+                        <i class='bx bx-hdd'></i>
+                        <span class="nav_name">Device Data</span>
+                    </a>
+
+                </div>
+            </div>
+            <a href="../index.html" class="nav_link logout">
+                <i class='bx bx-log-out nav_icon'></i>
+                <span class="nav_name">SignOut</span>
+            </a>
+        </nav>
+    </div>
+    <div class="container">
+        <div id="shipment-form">
+            <div id="backEndMessage" style="margin-top: 7px;">
+                <p style="color: red; font-size: small; text-align: center;">Shipment Number Already Exists!</p>
+            </div>
+            <div class="ship-details">
+                <div class="input-box">
+                    <label class="details">Shipment Number<span style="color: red;"> *</span></label>
+                    <input type="text" class="shipment_no" placeholder="Enter Shipment Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="shipment-error">Enter Shipment Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Container Number<span style="color: red;"> *</span></label>
+                    <input type="text" class="container_no" placeholder="Enter Container Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="conatiner-error">Enter Conatiner Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label for="route_details" class="details">Route Details<span style="color: red;"> *</span></label>
+                    <select class="route_details" id="route_details" required>
+                        <option value="" disabled selected>Select Route</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Tirupathi">Tirupathi</option>
+                        <option value="New Delhi">New Delhi</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Kochin">Kochin</option>
+                        <option value="Kolkata">Kolkata</option>
+                    </select>
+                    <span class="error-message" style="font-size: 10px;" id="route-error">Choose Route</span>
+                </div>
+
+                <div class="input-box">
+                    <label for="goods_type" class="details">Goods Type<span style="color: red;"> *</span></label>
+                    <select class="goods_type" id="goods_type" required>
+                        <option value="" disabled selected>Select Goods</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Medicals">Medicals</option>
+                        <option value="Electricals">Electricals</option>
+                        <option value="Cosmetics">Cosmetics</option>
+                    </select>
+                    <span class="error-message" style="font-size: 10px;" id="goods-error">Choose Goods</span>
+                </div>
+
+                <div class="input-box">
+                    <label for="device" class="details">Device<span style="color: red;"> *</span></label>
+                    <select class="device" id="device" required>
+                        <option value="" disabled selected>Select Device id</option>
+                        <option value="11560533076">11560533076</option>
+                        <option value="11560533077">11560533077</option>
+                    </select>
+                    <span class="error-message" style="font-size: 10px;" id="device-error">Choose Device</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Expected Delivery Date<span style="color: red;"> *</span></label>
+                    <input type="date" class="expected_delivery" id="deliverydate" name="Expected Delivery Date"
+                        required>
+                    <span class="error-message" style="font-size: 10px;" id="date-error">Enter Date</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">PO Number<span style="color: red;"> *</span></label>
+                    <input type="text" class="po_no" placeholder="Enter PO Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="po-error">Enter PO Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Delivery Number<span style="color: red;"> *</span></label>
+                    <input type="text" class="delivery_no" placeholder="Delivery Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="delivery-error">Enter Delivery Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">NDC Number<span style="color: red;"> *</span></label>
+                    <input type="text" class="ndc_no" placeholder="Enter NDC Number" required>
+                    <span class="error-message" style="font-size: 10px;" id="ndc-error">Enter NDC Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Batch id<span style="color: red;"> *</span></label>
+                    <input type="text" class="batch_id" placeholder="Enter Batch id" required>
+                    <span class="error-message" style="font-size: 10px;" id="batch-error">Enter Batch id</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Serial Number of Goods<span style="color: red;"> *</span></label>
+                    <input type="text" class="serial_no" placeholder="Enter Serial Number of Goods" required>
+                    <span class="error-message" style="font-size: 10px;" id="serial-error">Enter Serial Number</span>
+                </div>
+
+                <div class="input-box">
+                    <label class="details">Shipment Description<span style="color: red;"> *</span></label>
+                    <input type="text" class="shipment_des" placeholder="Enter Shipment Description" required>
+                    <span class="error-message" style="font-size: 10px;" id="description-error">Enter Description</span>
+                </div>
+
+                <div class="button1">
+                    <input type="submit" id="submit-buttonInCreate" value="Create Shipment" class="create-shipment-button">
+                </div>
+
+                <div class="button2">
+                    <input type="reset" id="clear-button" value="Clear Details" class="clear-button">
+                </div>
+
+                </div>
+            
+            </div>
+        <!-- <script src="../js/createship.js"></script> -->
+</body>
+</form>
+
+</html>

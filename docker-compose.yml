@@ -1,0 +1,58 @@
+version: '3'
+#The services section is where you define the individual containers (services) that will make up your application.
+services:
+  app:
+    image: myapp-image:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - FRONTEND_URL= 127.0.0.1:80
+  frontend:
+    image: uiapp:latest
+    ports:
+      - "80:80"
+      #networks that will be used to connect your services. Networks allow containers to communicate with each other using their service names as hostnames
+
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - "2181:2181"
+    depends_on:
+      - app
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_HEAP_OPTS=-Xmx1G
+
+  server:
+    image: socketapp:latest
+    ports:
+      - "12345:12345"
+    depends_on:
+      - kafka
+
+  producer:
+    image: producerapp:latest
+    environment:
+      - bootstrap_servers=kafka:9092
+      - host=server
+    depends_on:
+      - server
+      - kafka
+
+  consumer:
+    image: consumerapp:latest
+    environment:
+      - bootstrap_servers=kafka:9092
+    depends_on:
+      - producer

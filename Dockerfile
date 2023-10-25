@@ -9,19 +9,16 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /Backend
 
 # Copy the requirements.txt file into the container
-# COPY requirements.txt /Backend/
+COPY requirements.txt /Backend/
 
 # Install project dependencies
+RUN pip install -r requirements.txt
 
 # Copy the FastAPI application files into the container
 COPY . .
-RUN apt-get update && apt-get install -y python3-pip && pip3 install -r requirements.txt
 
 # Expose the port that FastAPI will run on
 EXPOSE 8000
 
 # Command to start the FastAPI application using Uvicorn
 CMD ["uvicorn", "Backend.index:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
-# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
