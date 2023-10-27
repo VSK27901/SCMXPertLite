@@ -1,17 +1,13 @@
 from fastapi import APIRouter, HTTPException, Depends, Query
 from Backend.models.models import UserCreate
-from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
+from Backend.config.db import conn, users_collection, verification_collection
 from Backend.utils import Hash, create_access_token, get_current_user, decode_token
-from bson import ObjectId
 from datetime import timedelta
-from pydantic import EmailStr
-from fastapi import Request, Depends, Form, HTTPException, status, Cookie, Response
+from fastapi import Request, Depends, Form, HTTPException, status, Response
 from jose import jwt, JWTError
 from fastapi.responses import HTMLResponse, RedirectResponse
 import re
 import requests
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from Backend.email.emailver import send_verification_email
 import secrets

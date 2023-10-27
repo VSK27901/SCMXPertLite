@@ -1,21 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends, Query, Header
-from Backend.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
-from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from Backend.utils import Hash, create_access_token,  get_current_user, decode_token
-from bson import ObjectId
-from datetime import timedelta
+from fastapi import APIRouter, HTTPException, Depends, status
+from Backend.models.models import UserCreateShipment
+from Backend.config.db import conn, users_collection, shipments_collection
+from Backend.utils import get_current_user
+from datetime import date
 from pydantic import EmailStr
-from fastapi import Request, Depends, Form, HTTPException, status, Cookie, Response
-from jose import jwt, JWTError
-from fastapi.responses import HTMLResponse, RedirectResponse
-import re
-import requests
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-import secrets
-from datetime import datetime, date
-from typing import List
+from fastapi import Request, Response
 from fastapi.responses import JSONResponse
 
 
@@ -78,6 +67,8 @@ async def createshipment(request: Request, user_ship: UserCreateShipment,
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 
+###### ----------route to display my shipment page after shipment created successfully----------######
+
 @user.get("/myshipment", response_model=list)
 async def myshipment(request: Request, current_user: dict = Depends(get_current_user)):
     try:
@@ -94,7 +85,7 @@ async def myshipment(request: Request, current_user: dict = Depends(get_current_
         raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
 
 
-###### ----------route to view all shipments in the db(Only admins are allowed)----------######
+###### ----------route to view all shipments from the db(Only admins are allowed)----------######
 
 @user.get("/viewallshipments", response_model=list[dict])
 async def viewallshipments(request: Request, current_user: dict = Depends(get_current_user)):

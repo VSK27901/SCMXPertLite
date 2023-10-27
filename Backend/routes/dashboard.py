@@ -1,17 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
 from Backend.models.models import  UserUpdateRole, UserList
 from Backend.config.db import conn, users_collection
-from Backend.utils import Hash, create_access_token, get_current_user, decode_token
-from bson import ObjectId
-from datetime import timedelta
-from pydantic import EmailStr
+from Backend.utils import get_current_user
 from fastapi import Request, Depends, Form, HTTPException, status, Response
-from jose import jwt, JWTError
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-import re
 import requests
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-import secrets
 
 
 user = APIRouter()
@@ -77,7 +69,6 @@ async def myaccount(request: Request, current_user: dict = Depends(get_current_u
                 "email":user_data["email"],
                 "role":user_data["role"],
                 "creation_date":user_data["creation_date"],
-                "creation_time":user_data["creation_time"]
             }    
         return user  
     except HTTPException as http_error:

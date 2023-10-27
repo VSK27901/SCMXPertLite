@@ -15,6 +15,6 @@ client = conn
 db = client["scmdb"]  # db name
 users_collection = db["users"]  #users data collection
 shipments_collection = db["Users_shipment"]  #users shipment collection
-verification_collection = db["verification_data"]  #To store verification data of the user(for Signup and reset password)
+verification_collection = db["verification_data"]  #To store verification data of the user(for Signup)
 device_collection = db["device_data"] #Device data collection
 

@@ -1,26 +1,12 @@
-from fastapi import APIRouter, HTTPException, Depends, Query
-from Backend.models.models import UserCreate, User, UserLogin, UserForgotPassword, UserCreateShipment
-from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from Backend.utils import Hash, create_access_token,  get_current_user, decode_token
-from bson import ObjectId
-from datetime import timedelta
-from pydantic import EmailStr
-from fastapi import Request, Depends, Form, HTTPException, status, Cookie, Response
-from jose import jwt, JWTError
-from fastapi.responses import HTMLResponse, RedirectResponse
-import re
+from fastapi import FastAPI, APIRouter, HTTPException, Depends
+from Backend.config.db import conn, users_collection
+from Backend.utils import Hash, create_access_token
+from fastapi import Request, Depends, Form, HTTPException, status, Response
 import requests
-# from fastapi.templating import Jinja2Templates
-# from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-import secrets
-from datetime import datetime, date
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
+
 
 app = FastAPI()
-
-
 
 
 # To create an instance of APIRouter for user-related routes
@@ -46,6 +32,7 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
             "role": user["role"]
         }
         
+        #create access token after successfull login
         access_token = create_access_token(data={"sub": user["username"], "email": user["email"]})
         
         return {"access_token": access_token, "current_user": current_user}

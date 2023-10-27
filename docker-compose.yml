@@ -1,21 +1,23 @@
 version: '3'
-#The services section is where you define the individual containers (services) that will make up your application.
+
 services:
+  # main application service
   app:
-    image: myapp-image:latest
+    image: backendapp:latest  # Use custom image from Docker Hub
     ports:
       - "8000:8000"
     environment:
-      - FRONTEND_URL= 127.0.0.1:80
+      - FRONTEND_URL=127.0.0.1:80
+
+  # Frontend service
   frontend:
-    image: uiapp:latest
+    image: uiapp:latest  # Use custom UI app image from Docker Hub
     ports:
       - "80:80"
-      #networks that will be used to connect your services. Networks allow containers to communicate with each other using their service names as hostnames
 
-
+  # Zookeeper for Kafka
   zookeeper:
-    image: 'bitnami/zookeeper:latest'
+    image: 'bitnami/zookeeper:latest'  # Use Bitnami Zookeeper image
     ports:
       - "2181:2181"
     depends_on:
@@ -23,8 +25,9 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
+  # Kafka service
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: 'bitnami/kafka:latest'  # Use Bitnami Kafka image
     ports:
       - "9092:9092"
     depends_on:
@@ -34,15 +37,17 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_HEAP_OPTS=-Xmx1G
 
+  # Server service
   server:
-    image: socketapp:latest
+    image: socketapp:latest  # Use custom socket app image from Docker Hub
     ports:
       - "12345:12345"
     depends_on:
       - kafka
 
+  # Producer service
   producer:
-    image: producerapp:latest
+    image: producerapp:latest  # Use custom producer app image from Docker Hub
     environment:
       - bootstrap_servers=kafka:9092
       - host=server
@@ -50,8 +55,9 @@ services:
       - server
       - kafka
 
+  # Consumer service
   consumer:
-    image: consumerapp:latest
+    image: consumerapp:latest  # Use custom consumer app image from Docker Hub
     environment:
       - bootstrap_servers=kafka:9092
     depends_on:

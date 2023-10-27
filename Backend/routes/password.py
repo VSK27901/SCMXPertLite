@@ -1,22 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, status
 from Backend.models.models import UserResetPass, UserForgotPassword, User, UserUpdatePassword
-from Backend.config.db import conn, users_collection, shipments_collection, device_collection, verification_collection
-from Backend.utils import Hash, create_access_token, get_current_user, decode_token
-from bson import ObjectId
-from datetime import timedelta
-from pydantic import EmailStr
-from fastapi import Request, Depends, Form, HTTPException, status, Cookie, Response
-from jose import jwt, JWTError
-from fastapi.responses import HTMLResponse, RedirectResponse
+from Backend.config.db import conn, users_collection
+from Backend.utils import Hash, get_current_user
 import re
-import requests
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from Backend.email.emailver import send_verification_email
-from Backend.email.resetpass import send_passreset_email
 import secrets
-from datetime import datetime, date
+from fastapi import Request
 
 
 # To create an instance of APIRouter for user-related routes
